@@ -20,11 +20,11 @@ vector<int> randomChoice(){
 	int val = rand()%(4)+1;
 	
 	switch(val){
-		case 1: vec.insert(vec.end(), array1.begin(), array1.end()) break; 
-		case 2: vec.insert(vec.end(), array2.begin(), array2.end()) break; 
-		case 3: vec.insert(vec.end(), array3.begin(), array3.end()) break; 
-		case 4: vec.insert(vec.end(), array4.begin(), array4.end()) break; 
-		default: vec.insert(vec.end(), defaults.begin(), defaults.end()) break; 
+		case 1: vec.insert(vec.end(), begin(array1), end(array1) break; 
+		case 2: vec.insert(vec.end(), begin(array2), end(array2) break; 
+		case 3: vec.insert(vec.end(), begin(array3), end(array3) break; 
+		case 4: vec.insert(vec.end(), begin(array4), end(array4) break; 
+		default: vec.insert(vec.end(), begin(defaults), end(defaults) break; 
 	}
 	return vec;
 	
