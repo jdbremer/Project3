@@ -1,6 +1,8 @@
 // Server side C/C++ program to demonstrate Socket programming
 #include "sharedModule.h"
 #define PORT 8080
+
+
 int main(int argc, char const *argv[])
 {
     int server_fd, new_socket, valread;
@@ -101,7 +103,7 @@ int main(int argc, char const *argv[])
   		sprintf(arg1,"%d", toServerG[0]);
   		sprintf(arg2,"%d", toServerC[1]);
 
-  		err = execl("./db",arg1,arg2,(char *)NULL);
+  		err = execl("./serverG",arg1,arg2,(char *)NULL);
 
   		if(err == -1){
   			printf("Issue starting ServerG \n");
@@ -114,7 +116,7 @@ int main(int argc, char const *argv[])
   		close(toServerG[0]);
   		close(toServerC[1]);
 
-  		printf("Reading from DB\n\n");
+  		printf("Reading from ServerG\n\n");
   		readErr = read(toServerC[0],readBuf, 99);
   		printf("Response: %s", readBuf);
   		clearBuffer(readBuf);
@@ -122,7 +124,7 @@ int main(int argc, char const *argv[])
     }
 
 
-		close(new_socket);
+		//close(new_socket);
 	}
 
     return 0;
