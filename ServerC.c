@@ -1,16 +1,53 @@
 // Server side C/C++ program to demonstrate Socket programming
-#include "sharedModule.h"
-#define PORT 8080
+#include "ServerC.h"
+
+
+
+
+
+void *waitForExit(void* arg){
+  pid_t wpid;
+  int status;
+  while(true){
+    wpid = wait(&status);
+    if(wpid == -1){
+      continue;
+    }
+    else{
+      printf("Child (serverG) %d terminated\n", wpid);
+    }
+  }
+
+}
+
+
+
 
 
 int main(int argc, char const *argv[])
 {
+
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
     char *hello = "Hello from server";
+
+
+    //STARTING FORK EXIT pthread
+    pthread_t exitThread;
+    int t = pthread_create(&exitThread, NULL, &waitForExit, NULL);
+      if(t != 0){
+        printf("Error in exit thread creation\n");
+      }
+      else{
+        printf("Pthread created\n");
+      }
+
+
+
+
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
@@ -37,7 +74,7 @@ int main(int argc, char const *argv[])
         perror("bind failed");
         exit(EXIT_FAILURE);
     }
-	else {printf("bind");}
+	else {printf("bind\n");}
 
 	while(true){
 		if (listen(server_fd, 3) < 0)
@@ -45,21 +82,21 @@ int main(int argc, char const *argv[])
 			perror("listen");
 			exit(EXIT_FAILURE);
 		}
-		else {printf("listen");}
+		else {printf("listening\n");}
 		if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
 						   (socklen_t*)&addrlen))<0)
 		{
 			perror("accept");
 			exit(EXIT_FAILURE);
 		}
-		else {printf("accept");}
+		else {printf("\n\n\n\n-- NEW CONNECTION -- \n\n");}
 
 		valread = read( new_socket , buffer, 1024);
 		printf("%s\n",buffer );
 		send(new_socket , hello , strlen(hello) , 0 );
 		printf("Hello message sent\n");
 
-
+    //CREATING SERVERG
     int DBreturn = -1;
   	int err;
   	int Status=0;
@@ -124,7 +161,8 @@ int main(int argc, char const *argv[])
     }
 
 
-		//close(new_socket);
+
+		close(new_socket);
 	}
 
     return 0;

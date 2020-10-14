@@ -16,8 +16,7 @@ int main(int argc,char **argv){
   clearBuffer(writeBuffer);
 	printf("Child ID: %d\n toServerG :%d\n toServerC :%d\n", getpid(),toServerG[0], toServerC[1]);
   sprintf(writeBuffer,"ServerG initialized\n");
-  printf("test\n");
   writeError = write(toServerC[1],writeBuffer,99);
-  printf("test1\n");
   errcheck(writeError);
+
   }

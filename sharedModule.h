@@ -9,6 +9,8 @@
 #include <cerrno>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <iostream>
+#include "pthread.h"
 #define BUFFER_SIZE 2048
 
 using namespace std;
