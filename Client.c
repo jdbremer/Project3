@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
 
 
     srand(time(NULL));
-    lastValinIP = rand() % 10 + 1;
+    lastValinIP = rand() % 255 + 1;
     sprintf(ips, "127.0.0.%d", lastValinIP);
     printf(ips);
 

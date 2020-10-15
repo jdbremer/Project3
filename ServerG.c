@@ -23,14 +23,35 @@ int main(int argc,char **argv){
   sprintf(writeBuffer,"ServerG initialized\n\n");
   writeError = write(toServerC[1],writeBuffer,99);
 
-
+	srand(time(NULL));
 
 
 	sprintf(sends, "ServerG Initialized");
 	send(new_socket , sends , strlen(sends) , 0 );
 
 	valread = read( new_socket , sends, 2048);
+	valread = read( new_socket , sends, 2048);
 	//CHOOSE ROCK, PAPER OR SCISSORS
+
+//for loop????
+	//run random val function
+	//val = rand() % 3 + 1;
+
+	//send
+	//sprintf(sends,"");
+	//send(new_socket , sends , strlen(sends) , 0 );
+	//read
+	//who_won = function(user_Val, server_Val);
+	//run random val function
+	//send
+	//read
+	//run random val function
+	//send
+	//read
+	//run random val function
+	//send
+	//read
+
 
 	send(new_socket , sends , strlen(sends) , 0 );
 
