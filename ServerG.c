@@ -30,7 +30,8 @@ int main(int argc,char **argv){
 	send(new_socket , sends , strlen(sends) , 0 );
 
 	valread = read( new_socket , sends, 2048);
-	valread = read( new_socket , sends, 2048);
+	
+	//valread = read( new_socket , sends, 2048);
 	//CHOOSE ROCK, PAPER OR SCISSORS
 
 //for loop????
