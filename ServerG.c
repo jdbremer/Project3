@@ -26,8 +26,8 @@ string convertNumber(int value){
 
 int main(int argc,char **argv){
 
-	char writeBuffer[2048];
-	char readBuf[2048];
+	char writeBuffer[1024];
+	char readBuf[1024];
 	char Cmd[100];
 	int toServerG[2];
 	int toServerC[2];
@@ -52,7 +52,7 @@ int main(int argc,char **argv){
 	sprintf(sends, "ServerG Initialized");
 	send(new_socket , sends , strlen(sends) , 0 );
 
-	valread = read( new_socket , sends, 2048);
+	valread = read( new_socket , sends, 1024);
 
 //CHOOSE ROCK, PAPER OR SCISSORS
 
@@ -62,31 +62,41 @@ int main(int argc,char **argv){
 	int server_Val, user_Val, playerWins = 0, computerWins = 0;
 	string who_won;
 
+	sprintf(sends, "Game is %d out of %d rounds..\n", randomValue[0], randomValue[1]);
+	send(new_socket, sends, strlen(sends), 0);
+	valread = read( new_socket , sends, 1024);
 	while(computerWins != randomValue[0] && playerWins != randomValue[0])
 	{
 		server_Val = rand() % 3 + 1;
-		sprintf(sends, convertNumber(server_Val));
+		// sprintf(sends, convertNumber(server_Val));
+		// sends = convertNumber(server_Val)
+		memset(sends, 0, sizeof(sends));
+		strcpy(sends, convertNumber(server_Val).c_str());
 		send(new_socket, sends, strlen(sends), 0);
-		user_Val = read(new_socket, sends, 2048);
+		memset(sends, 0, sizeof(sends));
+		valread = read(new_socket, sends, 1024);
+		user_Val = atoi(sends);
 		who_won = winner(user_Val, server_Val);
 		if(who_won == "Player Wins") playerWins++;
 		else if(who_won == "Computer Wins") computerWins++;
-		sprintf(sends, who_won);
+		who_won = "Server chose: " + convertNumber(server_Val) + "\n" + who_won;
+		memset(sends, 0, sizeof(sends));
+		strcpy(sends, who_won.c_str());
 		send(new_socket, sends, strlen(sends), 0);
+		valread = read(new_socket, sends, 1024);
+
 	}
 
 	if(computerWins == randomValue[0]){
-		sprintf(sends, "The computer wins the game");
+		sprintf(sends, "\nThe computer wins the game");
 		send(new_socket, sends, strlen(sends), 0);
 	}
 	else if(playerWins == randomValue[0]){
-		sprintf(sends, "The player wins the game");
+		sprintf(sends, "\nThe player wins the game");
 		send(new_socket, sends, strlen(sends), 0);
 	}
 
-
-	send(new_socket , sends , strlen(sends) , 0 );
-
-	errcheck(writeError);
+	//sprintf(sends, "Exiting...");
+	//send(new_socket , sends , strlen(sends) , 0 );
 
   }
