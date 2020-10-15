@@ -1,6 +1,29 @@
 #include "sharedModule.h"
 
 
+
+
+//Functions
+string winner(int user, int comp){
+	if(user == comp) return "It's a tie";
+	else if(user == 1 && comp == 2) return "Player Wins";
+	else if(user == 1 && comp == 3) return "Computer Wins";
+	else if(user == 2 && comp == 3) return "Player Wins";
+	else if(user == 2 && comp == 1) return "Computer Wins";
+	else if(user == 3 && comp == 2) return "Computer Wins";
+	else if(user == 3 && comp == 1) return "Player Wins";
+}
+
+string convertNumber(int value){
+	if(value == 1) return "Rock";
+	else if(value == 2) return "Scissors";
+	else if(value == 3) return "Paper";
+}
+
+
+
+
+
 int main(int argc,char **argv){
 
 	char writeBuffer[2048];
@@ -31,34 +54,39 @@ int main(int argc,char **argv){
 
 	valread = read( new_socket , sends, 2048);
 
-	//valread = read( new_socket , sends, 2048);
-	//CHOOSE ROCK, PAPER OR SCISSORS
-vector<int> random;
- random = randomChoice()
- random[0]
- random[1]
-//for loop????
-	//run random val function
-	//val = rand() % 3 + 1;
+//CHOOSE ROCK, PAPER OR SCISSORS
 
-	//send
-	//sprintf(sends,"");
-	//send(new_socket , sends , strlen(sends) , 0 );
-	//read
-	//who_won = function(user_Val, server_Val);
-	//run random val function
-	//send
-	//read
-	//run random val function
-	//send
-	//read
-	//run random val function
-	//send
-	//read
+	vector<int> randomValue;
+	randomValue = randomChoice();
+
+	int server_Val, user_Val, playerWins = 0, computerWins = 0;
+	string who_won;
+
+	while(computerWins != randomValue[0] && playerWins != randomValue[0])
+	{
+		server_Val = rand() % 3 + 1;
+		sprintf(sends, convertNumber(server_Val));
+		send(new_socket, sends, strlen(sends), 0);
+		user_Val = read(new_socket, sends, 2048);
+		who_won = winner(user_Val, server_Val);
+		if(who_won == "Player Wins") playerWins++;
+		else if(who_won == "Computer Wins") computerWins++;
+		sprintf(sends, who_won);
+		send(new_socket, sends, strlen(sends), 0);
+	}
+
+	if(computerWins == randomValue[0]){
+		sprintf(sends, "The computer wins the game");
+		send(new_socket, sends, strlen(sends), 0);
+	}
+	else if(playerWins == randomValue[0]){
+		sprintf(sends, "The player wins the game");
+		send(new_socket, sends, strlen(sends), 0);
+	}
 
 
 	send(new_socket , sends , strlen(sends) , 0 );
 
-  errcheck(writeError);
+	errcheck(writeError);
 
   }
