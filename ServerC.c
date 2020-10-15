@@ -91,10 +91,10 @@ int main(int argc, char const *argv[])
 		}
 		else {printf("\n\n\n\n-- NEW CONNECTION -- \n\n");}
 
-		valread = read( new_socket , buffer, 1024);
-		printf("%s\n",buffer );
-		send(new_socket , hello , strlen(hello) , 0 );
-		printf("Hello message sent\n");
+		//valread = read( new_socket , buffer, 1024);
+		//printf("%s\n",buffer );
+		//send(new_socket , hello , strlen(hello) , 0 );
+		//printf("Hello message sent\n");
 
     //CREATING SERVERG
     int DBreturn = -1;
@@ -105,6 +105,7 @@ int main(int argc, char const *argv[])
   	int toServerC[2];
   	char arg1[50];
   	char arg2[50];
+    char arg3[50];
 
   	char readBuf[BUFFER_SIZE+1];
   	char WriteBuffer[BUFFER_SIZE+1];
@@ -139,8 +140,8 @@ int main(int argc, char const *argv[])
 
   		sprintf(arg1,"%d", toServerG[0]);
   		sprintf(arg2,"%d", toServerC[1]);
-
-  		err = execl("./serverG",arg1,arg2,(char *)NULL);
+      sprintf(arg3,"%d", new_socket);
+  		err = execl("./serverG",arg1,arg2,arg3,(char *)NULL);
 
   		if(err == -1){
   			printf("Issue starting ServerG \n");

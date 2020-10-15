@@ -8,15 +8,32 @@ int main(int argc,char **argv){
 	char Cmd[100];
 	int toServerG[2];
 	int toServerC[2];
+	int new_socket;
 	int writeError;
 	int readErr;
+	int valread;
+	char sends[50];
 
 	sscanf(argv[0],"%d",&toServerG[0]);
 	sscanf(argv[1],"%d",&toServerC[1]);
+	sscanf(argv[2],"%d",&new_socket);
+
   clearBuffer(writeBuffer);
-	printf("Child ID: %d\n toServerG :%d\n toServerC :%d\n", getpid(),toServerG[0], toServerC[1]);
-  sprintf(writeBuffer,"ServerG initialized\n");
+	printf("Child ID: %d\n toServerG :%d\n toServerC :%d\n\n\n", getpid(),toServerG[0], toServerC[1]);
+  sprintf(writeBuffer,"ServerG initialized\n\n");
   writeError = write(toServerC[1],writeBuffer,99);
+
+
+
+
+	sprintf(sends, "ServerG Initialized");
+	send(new_socket , sends , strlen(sends) , 0 );
+
+	valread = read( new_socket , sends, 2048);
+	//CHOOSE ROCK, PAPER OR SCISSORS
+
+	send(new_socket , sends , strlen(sends) , 0 );
+
   errcheck(writeError);
 
   }

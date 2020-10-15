@@ -6,10 +6,13 @@ int main(int argc, char const *argv[])
 {
 
 	vector<int> random;
+
+  //CREATES SOCKET
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    char *hello = "Hello from client";
-	char randomVal[15];
+	  char randomVal[15];
+    char ips[15];
+    int lastValinIP = 0;
     char buffer[1024] = {0};
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
@@ -20,8 +23,14 @@ int main(int argc, char const *argv[])
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
 
+
+    srand(time(NULL));
+    lastValinIP = rand() % 10 + 1;
+    sprintf(ips, "127.0.0.%d", lastValinIP);
+    printf(ips);
+
     // Convert IPv4 and IPv6 addresses from text to binary form
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0)
+    if(inet_pton(AF_INET, ips, &serv_addr.sin_addr)<=0)
     {
         printf("\nInvalid address/ Address not supported \n");
         return -1;
@@ -32,15 +41,20 @@ int main(int argc, char const *argv[])
         printf("\nConnection Failed \n");
         return -1;
     }
+    //END OF SOCKET CREATION
 
-	random = randomChoice();
-	sprintf(randomVal, "Client: %d, %d", random[0], random[1]);
-    send(sock , randomVal , strlen(randomVal) , 0 );
-    printf("Client message sent\n");
+
+
+	  random = randomChoice();
+    printf("\n\nrandom %d, %d\n\n", random[0], random[1]);
+
     valread = read( sock , buffer, 1024);
     printf("%s\n",buffer );
 
-    valread = read( sock , buffer, 1024); //waiting for serverG connection
+    char *hello = "Client Initialized";
+    send(sock , hello , strlen(hello) , 0 );
+
+    valread = read( sock , buffer, 1024);
     printf("%s\n",buffer );
 
     return 0;

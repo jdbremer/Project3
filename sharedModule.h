@@ -11,13 +11,17 @@
 #include <sys/wait.h>
 #include <iostream>
 #include "pthread.h"
+#include <time.h>
 #define BUFFER_SIZE 2048
+#define PORT 8080
 
 using namespace std;
 
 
 vector<int> randomChoice(){
 	vector<int> vec;
+
+	srand (time(NULL));
 
 	int defaults[2] = {1,1};
 	int array1[2] = {2,3};
