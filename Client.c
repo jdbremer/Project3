@@ -45,8 +45,8 @@ int main(int argc, char const *argv[])
 
 
 
-	  random = randomChoice();
-    printf("\n\nrandom %d, %d\n\n", random[0], random[1]);
+	  //random = randomChoice();
+    //printf("\n\nrandom %d, %d\n\n", random[0], random[1]);
 
     valread = read( sock , buffer, 1024);
     printf("%s\n",buffer );

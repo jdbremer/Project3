@@ -30,10 +30,13 @@ int main(int argc,char **argv){
 	send(new_socket , sends , strlen(sends) , 0 );
 
 	valread = read( new_socket , sends, 2048);
-	
+
 	//valread = read( new_socket , sends, 2048);
 	//CHOOSE ROCK, PAPER OR SCISSORS
-
+vector<int> random;
+ random = randomChoice()
+ random[0]
+ random[1]
 //for loop????
 	//run random val function
 	//val = rand() % 3 + 1;
