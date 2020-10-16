@@ -6,18 +6,22 @@
 //Functions
 string winner(int user, int comp){
 	if(user == comp) return "It's a tie";
-	else if(user == 1 && comp == 2) return "Player Wins";
-	else if(user == 1 && comp == 3) return "Computer Wins";
-	else if(user == 2 && comp == 3) return "Player Wins";
-	else if(user == 2 && comp == 1) return "Computer Wins";
-	else if(user == 3 && comp == 2) return "Computer Wins";
-	else if(user == 3 && comp == 1) return "Player Wins";
+	else if(user == 1 && comp == 3) return "Player Wins";
+	else if(user == 1 && comp == 2) return "Computer Wins";
+	else if(user == 2 && comp == 1) return "Player Wins";
+	else if(user == 2 && comp == 3) return "Computer Wins";
+	else if(user == 3 && comp == 1) return "Computer Wins";
+	else if(user == 3 && comp == 2) return "Player Wins";
+	return "";
 }
 
 string convertNumber(int value){
-	if(value == 1) return "Rock";
-	else if(value == 2) return "Scissors";
-	else if(value == 3) return "Paper";
+	switch(value){
+		case 1: return "Rock";  break;
+		case 2: return "Paper"; break;
+		case 3: return "Scissors"; break;
+		default: return "default"; break;
+	}
 }
 
 
@@ -35,7 +39,7 @@ int main(int argc,char **argv){
 	int writeError;
 	int readErr;
 	int valread;
-	char sends[50];
+	char sends[500];
 
 	sscanf(argv[0],"%d",&toServerG[0]);
 	sscanf(argv[1],"%d",&toServerC[1]);
@@ -59,8 +63,9 @@ int main(int argc,char **argv){
 	vector<int> randomValue;
 	randomValue = randomChoice();
 
-	int server_Val, user_Val, playerWins = 0, computerWins = 0;
+	int server_Val = 0, user_Val = 0, playerWins = 0, computerWins = 0;
 	string who_won;
+	string user_s, server_s;
 
 	sprintf(sends, "Game is %d out of %d rounds..\n", randomValue[0], randomValue[1]);
 	send(new_socket, sends, strlen(sends), 0);
@@ -68,18 +73,26 @@ int main(int argc,char **argv){
 	while(computerWins != randomValue[0] && playerWins != randomValue[0])
 	{
 		server_Val = rand() % 3 + 1;
-		// sprintf(sends, convertNumber(server_Val));
-		// sends = convertNumber(server_Val)
-		memset(sends, 0, sizeof(sends));
-		strcpy(sends, convertNumber(server_Val).c_str());
+
+		memset(sends, 0, sizeof(sends)); //sends nothing just to keep things synced
+
+		sprintf(sends, "Sever val: %d", server_Val);
 		send(new_socket, sends, strlen(sends), 0);
 		memset(sends, 0, sizeof(sends));
 		valread = read(new_socket, sends, 1024);
+
 		user_Val = atoi(sends);
+		memset(sends, 0, sizeof(sends));
 		who_won = winner(user_Val, server_Val);
+
 		if(who_won == "Player Wins") playerWins++;
 		else if(who_won == "Computer Wins") computerWins++;
-		who_won = "Server chose: " + convertNumber(server_Val) + "\n" + who_won;
+
+		who_won = "Computer chose: " + convertNumber(server_Val) +" Player Chose: " + convertNumber(user_Val) +
+		"\n" + who_won +"\n"+ "Computer Wins: " + to_string(computerWins) + " Player Wins: " +
+		to_string(playerWins) + "\n";
+
+
 		memset(sends, 0, sizeof(sends));
 		strcpy(sends, who_won.c_str());
 		send(new_socket, sends, strlen(sends), 0);
@@ -88,11 +101,11 @@ int main(int argc,char **argv){
 	}
 
 	if(computerWins == randomValue[0]){
-		sprintf(sends, "\nThe computer wins the game");
+		sprintf(sends, "The computer wins the game");
 		send(new_socket, sends, strlen(sends), 0);
 	}
 	else if(playerWins == randomValue[0]){
-		sprintf(sends, "\nThe player wins the game");
+		sprintf(sends, "The player wins the game");
 		send(new_socket, sends, strlen(sends), 0);
 	}
 

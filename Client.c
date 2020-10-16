@@ -45,31 +45,19 @@ int main(int argc, char const *argv[])
 
 
 
-	  //random = randomChoice();
-    //printf("\n\nrandom %d, %d\n\n", random[0], random[1]);
-		printf("1\n");
     valread = read( sock , buffer, 1024);
     printf("%s\n",buffer );
-		printf("2\n");
 
-		printf("3\n");
     char *hello = "Client Initialized";
     send(sock , hello , strlen(hello) , 0 );
-		printf("4\n");
 
 		string server_choice;
 		string Sclient_choice;
 		char client_choice[50];
-//printf("HEY\n");
-		printf("5\n");
 		valread = read( sock , buffer, 1024);
 		printf("%s\n",buffer );
-		printf("6\n");
 
-		printf("7\n");
     send(sock , hello , strlen(hello) , 0 );
-		printf("8\n");
-		//printf("HEY11\n");
 		while(true){
 			memset(buffer, 0, sizeof(buffer));
 			valread = read( sock , buffer, 1024);
@@ -79,14 +67,15 @@ int main(int argc, char const *argv[])
 				 break;
 			 }
 			server_choice = buffer;
+			Sclient_choice = "";
+			while((atoi(Sclient_choice.c_str())<1) && (atoi(Sclient_choice.c_str())>3)){
 			cout << "Enter one of the following: \n 1 ~ Rock \n 2 ~ Paper \n 3 ~ Scissors\n:: ";
 			cin >> Sclient_choice;
-			//printf("10\n");
+			}
 
 			memset(client_choice, 0, sizeof(client_choice));
 			strcpy(client_choice, Sclient_choice.c_str());
-			//client_choice
-			//printf("9\n");
+
 			send(sock , client_choice , strlen(client_choice) , 0 );
 			valread = read( sock , buffer, 1024);
 			printf("%s\n",buffer );
@@ -95,7 +84,6 @@ int main(int argc, char const *argv[])
 
 
 		}
-		printf("HEY");
     printf("%s\n",buffer );
 
     return 0;
