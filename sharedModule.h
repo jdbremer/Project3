@@ -13,7 +13,12 @@
 #include "pthread.h"
 #include <time.h>
 #define BUFFER_SIZE 2048
-#define PORT 8080
+#define PORT 90909
+#include <netdb.h>
+#define SERVERPORT 90909
+#define SERVERPORTSTR "90909"
+#define SERVERIP "199.17.28.75"
+#define SERVERNAME "ahscentos"
 
 using namespace std;
 
